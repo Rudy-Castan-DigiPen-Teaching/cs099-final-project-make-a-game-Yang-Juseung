@@ -61,25 +61,38 @@ var mWidth = 50;
 var mHeight = 50;
 var m2X = 130;
 var m2Y = 130;
-var m3X = 570;
+var m3X = 500;
 var m3Y = 130;
-var m4X = 570;
+var m4X = 730;
 var m4Y = 260;
 
 //Boss
-var bossX = 100;
+var bossX = 400;
 var bossY = 375
 var bossWidth = 100;
 var bossHeight = 100;
 
+//moving BOSS
+var bossPosition = 400; //center positions
+var bossSpeed = 2; // how fast
+var bossDirection = -1; // 1 move right and -1 move left
+var bossDistance = 400; // how far can boss go
+
 //moving MAD
 var m1position = 200; //center positions
-var m2position = 550;
+var m2position = 215;
 var mSpeed = 2; // how fast
 var m1Direction = -1; // 1 move right and -1 move left
-var m1Distance = 50; // how far can MAD go
-var m2Direction = 1;
-var m2Distance = 50;
+var m1Distance = 90; // how far can MAD go
+var m2Direction = -1;
+var m2Distance = 130;
+
+var m3position = 400; //center positions
+var m4position = 650;
+var m3Direction = -1; // 1 move right and -1 move left
+var m3Distance = 150; // how far can MAD go
+var m4Direction = -1;
+var m4Distance = 100;
 
 //count
 var lives = 4;
@@ -95,6 +108,9 @@ var fallingSpeed = 3; //same as vel
 var minHeight = 360; //height of ground
 var maxHeight = 0; //height of sky
 var jumpCounter = 0;//keep track of how much jump
+
+//hit box
+var main_hitbox
 
 
 //media
@@ -150,7 +166,10 @@ function preload()
     bosswalk_r2 = loadImage("move/Boss - r - walk2.png")
     bosswalk_r3 = loadImage("move/Boss - r - walk3.png")
     bosswalk_r4 = loadImage("move/Boss - r - walk4.png")
-    //bosswalk_l = 
+    bosswalk_l1 = loadImage("move/Boss - l - walk1.png")
+    bosswalk_l2 = loadImage("move/Boss - l - walk2.png")
+    bosswalk_l3 = loadImage("move/Boss - l - walk3.png")
+    bosswalk_l4 = loadImage("move/Boss - l - walk4.png")
 }
 
 
@@ -168,7 +187,6 @@ function setup()
 function draw()
 {
     //call functions
-    keyPressed();
     keyTyped();
     gravity();
 
@@ -177,40 +195,37 @@ function draw()
         splash();
     }//close = 0
 
-    /*if(stage == 1)
+    else if(stage == 1)
     {
         splash1();
     }
 
-    if(stage == 2)
+    else if(stage == 2)
     {
         splash2();
     }
 
-    if(stage == 3)
+    else if(stage == 3)
     {
         splash3();
-    }*/
+    }
 
-    if(stage == 1)
+    else if(stage == 4)
     {
         game();
     }//close = 4
 
-    if(stage == 2)
+    else if(stage == 5)
     {
         loseScreen();
-    }//close = 4
+    }//close = 5
 
-    if(stage == 3)
+    else if(stage == 6)
     {
         level2()
     }
 
-    if(keyIsPressed && keyCode == 32)
-    {
-        stage = 1;
-    }
+
 }
 
 //splash
@@ -234,21 +249,38 @@ function splash()
     text("W = jump, A = go left, D = go right", width / 2, 300);
     text("Press K to attack", width / 2, 350);
     text("Press SPACE BAR to START", width / 2, 450);
+
+    /*if(keyIsDown(32) && stage == 0)
+    {
+        stage = 1;
+    }*/
 }
 
 function splash1()
 {
     image(cutscene1, width / 2, height / 2, width, height)
+    /*if(keyIsDown(32) && stage ==1)
+    {
+        stage = 2;
+    }*/
 }
 
 function splash2()
 {
     image(cutscene2, width / 2, height / 2, width, height)
+    /*if(keyIsDown(32) && stage ==2)
+    {
+        stage = 3;
+    }*/
 }
 
 function splash3()
 {
     image(cutscene3, width / 2, height / 2, width, height)
+    /*if(keyIsDown(32) && stage ==3)
+    {
+        stage = 4;
+    }*/
 }
 
 
@@ -287,8 +319,8 @@ function game()
     //draw player
     stroke(0);
     fill(150, 0, 170);
-    //rect(p1X, p1Y, pWidth, pHeight);
-    //image(main_character_R, p1X, p1Y, pWidth, pHeight);
+    //rect(bossX, bossY, bossWidth, bossHeight);
+    //image(main_character_R, bossX, bossY, bossWidth, bossHeight);
 
     player1();
 
@@ -329,15 +361,25 @@ function game()
     m1X = m1X + (mSpeed * m1Direction);
     if(m1X >= m1position + m1Distance || m1X <= m1position - m1Distance)
     {
-        //exceed distance allowance
-        m1Direction = m1Direction - 1// change direction
+        m1Direction = m1Direction * -1;
     }
 
     m2X = m2X + (mSpeed * m2Direction);
     if(m2X >= m2position + m2Distance || m2X <= m2position - m2Distance)
     {
-        //exceed distance allowance
-        m2Direction = m2Direction - 1// change direction
+        m2Direction = m2Direction * -1;
+    }
+
+    m3X = m3X + (mSpeed * m3Direction);
+    if(m3X >= m3position + m3Distance || m3X <= m3position - m3Distance)
+    {
+        m3Direction = m3Direction * -1;
+    }
+
+    m4X = m4X + (mSpeed * m4Direction);
+    if(m4X >= m4position + m4Distance || m4X <= m4position - m4Distance)
+    {
+        m4Direction = m4Direction * -1;
     }
 
     //lives
@@ -435,13 +477,13 @@ function game()
     //trigger go to level 2
     if(score >= 1 )
     {
-        stage = 3;
+        stage = 6;
     }
 
     //trigger lose screen
     if(lives <= 0)
     {
-        stage = 2;
+        stage = 5;
     }
 
     //drug
@@ -473,14 +515,14 @@ function level2()
     strokeWeight(5);
     fill(255, 120, 0);
     //rect(b1X, b1Y, bWidth, bHeight);
-    image(platform, b1X, b1Y, bWidth, bHeight)
-    image(platform, b5X, b5Y, bWidth, bHeight)
+    image(platform, b1X, b1Y - 5, bWidth, bHeight)
+    image(platform, b5X, b5Y - 5, bWidth, bHeight)
 
     //draw player
     stroke(0);
     fill(150, 0, 170);
-    //rect(p1X, p1Y, pWidth, pHeight);
-    //image(main_character_R, p1X, p1Y, pWidth, pHeight);
+    //rect(bossX, bossY, bossWidth, bossHeight);
+    //image(main_character_R, bossX, bossY, bossWidth, bossHeight);
 
     player1();
 
@@ -512,13 +554,23 @@ function level2()
         jumpCounter = 0;
     }
 
-    //trigger lose screen
+    //trigger loseScreen
     if(lives <= 0)
     {
-        stage = 2;
+        stage = 5;
     }
 
     Boss();
+
+    image(bosswalk_r1, bossX, bossY, bossWidth, bossHeight);
+    if(p1X >= bossX - bossWidth / 2 && p1X<= bossX + bossWidth / 2 && p1Y >= bossY - bossHeight / 2 && p1Y <= bossY + bossHeight / 2)
+    {
+        //hitting boss
+        lives = lives -1;
+    }
+
+    //boss moving
+
 }
 
 //lose screen
@@ -586,7 +638,7 @@ function gravity()
 
 function player1()
 {
-    //image(main_character_R, p1X, p1Y, pWidth, pHeight);
+    //image(main_character_R, bossX, bossY, bossWidth, bossHeight);
     if(lookingright == true)
     {
         lookingleft == false;
@@ -676,31 +728,31 @@ function Boss()
         //right
         if(step = 0)
         {
-            image(main_character_R, p1X, p1Y, pWidth, pHeight);
+            image(bosswalk_r1, bossX, bossY, bossWidth, bossHeight);
         }
         else if(step = 1)
         {
-            image(main_character_R, p1X, p1Y, pWidth, pHeight);
+            image(bosswalk_r2,bossX, bossY, bossWidth, bossHeight);
         }
         else if(step = 2)
         {
-            image(main_character_R, p1X, p1Y, pWidth, pHeight);
+            image(bosswalk_r3,bossX, bossY, bossWidth, bossHeight);
         }
         else if(step = 3)
         {
-            image(main_character_R, p1X, p1Y, pWidth, pHeight);
+            image(bosswalk_r4,bossX, bossY, bossWidth, bossHeight);
         }
         else if(step = 4)
         {
-            image(main_character_R, p1X, p1Y, pWidth, pHeight);
+            image(bosswalk_r1,bossX, bossY, bossWidth, bossHeight);
         }
         else if(step = 5)
         {
-            image(main_character_R, p1X, p1Y, pWidth, pHeight);
+            image(bosswalk_r2,bossX, bossY, bossWidth, bossHeight);
         }
         else if(step = 6)
         {
-            image(main_character_R, p1X, p1Y, pWidth, pHeight);
+            image(bosswalk_r3,bossX, bossY, bossWidth, bossHeight);
             step = 0; //restart
         }
     }//end right
@@ -713,31 +765,31 @@ function Boss()
         //right
         if(step = 0)
         {
-            image(main_character_L, p1X, p1Y, pWidth, pHeight);
+            image(bosswalk_l1, bossX, bossY, bossWidth, bossHeight);
         }
         else if(step = 1)
         {
-            image(main_character_L, p1X, p1Y, pWidth, pHeight);
+            image(bosswalk_l2, bossX, bossY, bossWidth, bossHeight);
         }
         else if(step = 2)
         {
-            image(main_character_L, p1X, p1Y, pWidth, pHeight);
+            image(bosswalk_l3, bossX, bossY, bossWidth, bossHeight);
         }
         else if(step = 3)
         {
-            image(main_character_L, p1X, p1Y, pWidth, pHeight);
+            image(bosswalk_l4, bossX, bossY, bossWidth, bossHeight);
         }
         else if(step = 4)
         {
-            image(main_character_L, p1X, p1Y, pWidth, pHeight);
+            image(bosswalk_l1, bossX, bossY, bossWidth, bossHeight);
         }
         else if(step = 5)
         {
-            image(main_character_L, p1X, p1Y, pWidth, pHeight);
+            image(bosswalk_l2, bossX, bossY, bossWidth, bossHeight);
         }
         else if(step = 6)
         {
-            image(main_character_L, p1X, p1Y, pWidth, pHeight);
+            image(bosswalk_l3, bossX, bossY, bossWidth, bossHeight);
             step = 0; //restart
         }
     }//end left
@@ -745,28 +797,22 @@ function Boss()
 
     if(lookingright == false && lookingleft ==false)
     {
-        image(main_character_R, p1X, p1Y, pWidth, pHeight);
+        image(bosswalk_r1, bossX, bossY, bossWidth, bossHeight);
     }
+
+
+
 }
 
 function keyPressed()
 {
-    if(key == "a" || key == "A" || keyCode == "37")
+    if(keyCode == "32" && stage <= 3)
     {
-        p1X = p1X - 3.5
-        lookingleft = true;
-    }else{
-        lookingright = false;
-    }
-
-    if(key == "d" || key == "D" || keyCode == "39")
-    {
-        p1X = p1X + 3.5
-        lookingright = true;
-    }else{
-        lookingright = false;
+        console.log("cutsceen")
+        stage++
     }
 }
+
 
 function keyTyped()
 {
@@ -775,5 +821,21 @@ function keyTyped()
         jump = true;   
     }else{
         jump = false;
+    }
+
+    if(key == "a" || key == "A" || keyCode == "37")
+    {
+        p1X = p1X - 3.5
+        lookingleft = true;
+    }else{
+        lookingleft = false;
+    }
+
+    if(key == "d" || key == "D" || keyCode == "39")
+    {
+        p1X = p1X + 3.5
+        lookingright = true;
+    }else{
+        lookingright = false;
     }
 }
