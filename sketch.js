@@ -40,6 +40,9 @@ var b4X = 640;
 var b4Y = 170;
 var b5X = 640;
 var b5Y = 300;
+var b6X = 420
+var b6Y = 300
+var b6Width = 170
 
 
 //wall
@@ -74,9 +77,9 @@ var bossHeight = 100;
 
 //moving BOSS
 var bossPosition = 400; //center positions
-var bossSpeed = 2; // how fast
+var bossSpeed = 6; // how fast
 var bossDirection = -1; // 1 move right and -1 move left
-var bossDistance = 400; // how far can boss go
+var bossDistance = 350; // how far can boss go
 
 //moving MAD
 var m1position = 200; //center positions
@@ -104,7 +107,7 @@ var jump = false;
 var direction = 1; //the force of gravity in the y direction
 var velocity = 2; //speed of player
 var jumpPower = 13; //strength of player
-var fallingSpeed = 3; //same as vel
+var fallingSpeed = 5; //same as vel
 var minHeight = 360; //height of ground
 var maxHeight = 0; //height of sky
 var jumpCounter = 0;//keep track of how much jump
@@ -516,6 +519,7 @@ function level2()
     fill(255, 120, 0);
     //rect(b1X, b1Y, bWidth, bHeight);
     image(platform, b1X, b1Y - 5, bWidth, bHeight)
+    image(platform, b6X, b6Y - 5, b6Width, bHeight)
     image(platform, b5X, b5Y - 5, bWidth, bHeight)
 
     //draw player
@@ -535,7 +539,7 @@ function level2()
     fill("red");
     textSize(10)
     stroke(0);
-    text(bosshealth, bossX, bossY - 30);
+    text(bosshealth, bossX - 50, bossY - 50);
 
     //box1
     if(p1X >= b1X - bWidth / 2 && p1X <= b1X + bWidth / 2 && p1Y + pHeight >= b1Y - bHeight / 2 && p1Y + pHeight <= b1Y + bHeight / 2 && jump == false)
@@ -543,6 +547,14 @@ function level2()
         p1Y = b1Y - 40;
         velocity = 0;
         jumpCounter = 0; //allow to jump again
+    }
+
+    //box6
+    if(p1X >= b6X - b6Width / 2 && p1X <= b6X + b6Width / 2 && p1Y + pHeight >= b6Y - bHeight / 2 && p1Y + pHeight <= b6Y + bHeight / 2 && jump == false)
+    {
+        p1Y = b6Y - 40;
+        velocity = 0;
+        jumpCounter = 0;
     }
     
 
@@ -570,6 +582,12 @@ function level2()
     }
 
     //boss moving
+    bossX = bossX + (bossSpeed * bossDirection);
+    if(bossX >= bossPosition + bossDistance || bossX <= bossPosition - bossDistance)
+    {
+        bossDirection = bossDirection * -1;
+    }
+
 
 }
 
