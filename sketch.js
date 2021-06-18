@@ -42,7 +42,7 @@ var b5X = 640;
 var b5Y = 300;
 var b6X = 420
 var b6Y = 300
-var b6Width = 170
+var b6Width = 100
 
 
 //wall
@@ -101,6 +101,7 @@ var m4Distance = 100;
 var lives = 4;
 var madlives = 3;
 var score  = 0;
+var how_many_knife = 50
 
 //gravity
 var jump = false;
@@ -111,9 +112,6 @@ var fallingSpeed = 5; //same as vel
 var minHeight = 360; //height of ground
 var maxHeight = 0; //height of sky
 var jumpCounter = 0;//keep track of how much jump
-
-//hit box
-var main_hitbox
 
 
 //media
@@ -138,11 +136,17 @@ var bosswalk_r2
 var bosswalk_r3
 var bosswalk_r4
 var bosswalk_l
+var MAD1_atk
+var MAD3
+var MAD4
+var knife_r
+var knife_l
 
 
 //countres
 var lives = 100
 var madlife = 30
+var madlife2 = 40
 var bosshealth = 200
 
 //preload
@@ -173,6 +177,11 @@ function preload()
     bosswalk_l2 = loadImage("move/Boss - l - walk2.png")
     bosswalk_l3 = loadImage("move/Boss - l - walk3.png")
     bosswalk_l4 = loadImage("move/Boss - l - walk4.png")
+    MAD1_atk = loadImage("move/villian - r - atk 1.png")
+    MAD3 = loadImage("image/villian.l.png")
+    MAD4 = loadImage("image/villian2.ll.png")
+    knife_r = loadImage("image/knife r.png")
+    knife_l = loadImage("image/knife l.png")
 }
 
 
@@ -189,6 +198,7 @@ function setup()
 //draw
 function draw()
 {
+
     //call functions
     keyTyped();
     gravity();
@@ -327,63 +337,6 @@ function game()
 
     player1();
 
-    //draw MAD
-    //MAD1
-    image(MAD1, m1X, m1Y, mWidth, mHeight);
-    if(p1X >= m1X - mWidth / 2 && p1X<= m1X + mWidth / 2 && p1Y >= m1Y - mHeight / 2 && p1Y <= m1Y + mHeight / 2)
-    {
-        //hitting MAD
-        lives = lives -1;
-    }
-
-    //MAD2
-    image(MAD1, m2X, m2Y, mWidth, mHeight);
-    if(p1X >= m2X - mWidth / 2 && p1X<= m2X + mWidth / 2 && p1Y >= m2Y - mHeight / 2 && p1Y <= m2Y + mHeight / 2)
-    {
-        //hitting MAD
-        lives = lives -1;
-    }
-
-    //MAD3
-    image(MAD2, m3X, m3Y, mWidth, mHeight);
-    if(p1X >= m3X - mWidth / 2 && p1X<= m3X + mWidth / 2 && p1Y >= m3Y - mHeight / 2 && p1Y <= m3Y + mHeight / 2)
-    {
-        //hitting MAD
-        lives = lives -1;
-    }
-
-    //MAD4
-    image(MAD2, m4X, m4Y, mWidth, mHeight);
-    if(p1X >= m4X - mWidth / 2 && p1X<= m4X + mWidth / 2 && p1Y >= m4Y - mHeight / 2 && p1Y <= m4Y + mHeight / 2)
-    {
-        //hitting MAD
-        lives = lives -1;
-    }
-
-    //moving MAD
-    m1X = m1X + (mSpeed * m1Direction);
-    if(m1X >= m1position + m1Distance || m1X <= m1position - m1Distance)
-    {
-        m1Direction = m1Direction * -1;
-    }
-
-    m2X = m2X + (mSpeed * m2Direction);
-    if(m2X >= m2position + m2Distance || m2X <= m2position - m2Distance)
-    {
-        m2Direction = m2Direction * -1;
-    }
-
-    m3X = m3X + (mSpeed * m3Direction);
-    if(m3X >= m3position + m3Distance || m3X <= m3position - m3Distance)
-    {
-        m3Direction = m3Direction * -1;
-    }
-
-    m4X = m4X + (mSpeed * m4Direction);
-    if(m4X >= m4position + m4Distance || m4X <= m4position - m4Distance)
-    {
-        m4Direction = m4Direction * -1;
-    }
 
     //lives
     //image(R, 30, 30, 30, 30)
@@ -395,14 +348,6 @@ function game()
     stroke(0);
     text("HEALTH", 130, 50);
     text(lives, 200, 50);
-
-    fill("red");
-    textSize(10)
-    stroke(0);
-    text(madlife, m1X, m1Y - 30);
-    text(madlife, m2X, m2Y - 30);
-    text(madlife, m3X, m3Y - 30);
-    text(madlife, m4X, m4Y - 30);
 
     //collisions
     //box1
@@ -489,18 +434,131 @@ function game()
         stage = 5;
     }
 
-    //drug
+    //call drug
+    DRUG();
+
+    //call MAD
+    MOB_MAD1();
+    MOB_MAD2();
+    MOB_MAD3();
+    MOB_MAD4();
+
+    //call knife
+    knife();
+
+}//close game
+
+function knife()
+{
+    fill("white");
+    textSize(20)
+    stroke(0);
+    text("knife :", 700, 50)
+    text(how_many_knife, 750, 50)
+}
+
+function MOB_MAD1()
+{
+    image(MAD1, m1X, m1Y, mWidth, mHeight);
+    if(p1X >= m1X - mWidth / 2 && p1X<= m1X + mWidth / 2 && p1Y >= m1Y - mHeight / 2 && p1Y <= m1Y + mHeight / 2)
+    {
+        //hitting MAD
+        lives = lives -1;
+    }
+
+    m1X = m1X + (mSpeed * m1Direction);
+    if(m1X >= m1position + m1Distance || m1X <= m1position - m1Distance)
+    {
+        m1Direction = m1Direction * -1;
+        /*if(m1X = 300)
+        {
+            image(MAD3, m1X, m1Y, mWidth, mHeight) == true
+        }*/
+    }
+    fill("red");
+    textSize(10)
+    stroke(0);
+    text(madlife, m1X, m1Y - 30);
+}
+
+function MOB_MAD2()
+{
+    //MAD2
+    image(MAD1, m2X, m2Y, mWidth, mHeight);
+    if(p1X >= m2X - mWidth / 2 && p1X<= m2X + mWidth / 2 && p1Y >= m2Y - mHeight / 2 && p1Y <= m2Y + mHeight / 2)
+    {
+        //hitting MAD
+        lives = lives -1;
+    }
+
+    m2X = m2X + (mSpeed * m2Direction);
+    if(m2X >= m2position + m2Distance || m2X <= m2position - m2Distance)
+    {
+        m2Direction = m2Direction * -1;
+    }
+    fill("red");
+    textSize(10)
+    stroke(0);
+    text(madlife, m2X, m2Y - 30);
+}
+
+function MOB_MAD3()
+{
+    //MAD3
+    image(MAD2, m3X, m3Y, mWidth, mHeight);
+    if(p1X >= m3X - mWidth / 2 && p1X<= m3X + mWidth / 2 && p1Y >= m3Y - mHeight / 2 && p1Y <= m3Y + mHeight / 2)
+    {
+        //hitting MAD
+        lives = lives -1;
+    }
+
+    m3X = m3X + (mSpeed * m3Direction);
+    if(m3X >= m3position + m3Distance || m3X <= m3position - m3Distance)
+    {
+        m3Direction = m3Direction * -1;
+    }
+    fill("red");
+    textSize(10)
+    stroke(0);
+    text(madlife2, m3X, m3Y - 30);
+}
+
+function MOB_MAD4()
+{
+    //MAD4
+    image(MAD2, m4X, m4Y, mWidth, mHeight);
+    if(p1X >= m4X - mWidth / 2 && p1X<= m4X + mWidth / 2 && p1Y >= m4Y - mHeight / 2 && p1Y <= m4Y + mHeight / 2)
+    {
+        //hitting MAD
+        lives = lives -1;
+    }
+
+    m4X = m4X + (mSpeed * m4Direction);
+    if(m4X >= m4position + m4Distance || m4X <= m4position - m4Distance)
+    {
+        m4Direction = m4Direction * -1;
+    }
+    fill("red");
+    textSize(10)
+    stroke(0);
+    text(madlife2, m4X, m4Y - 30);
+}
+
+function DRUG()
+{
     image(drug, d1X, d1Y, dWidth, dHeight)
     if(p1X >= d1X - dWidth / 2 && p1X <= d1X + dWidth / 2 && p1Y >= d1Y - dHeight && p1Y <= d1Y + dHeight / 2)
     {
         score = score + 1;
         d1X = -1000
+        how_many_knife = how_many_knife + 50
+        lives = lives + 30
     }
-
-}//close game
+}
 
 function level2()
 {
+
     //apperance of game
     //background("green")
     image(backpicture, width / 2, height / 2, width, height)
@@ -573,22 +631,7 @@ function level2()
     }
 
     Boss();
-
-    image(bosswalk_r1, bossX, bossY, bossWidth, bossHeight);
-    if(p1X >= bossX - bossWidth / 2 && p1X<= bossX + bossWidth / 2 && p1Y >= bossY - bossHeight / 2 && p1Y <= bossY + bossHeight / 2)
-    {
-        //hitting boss
-        lives = lives -1;
-    }
-
-    //boss moving
-    bossX = bossX + (bossSpeed * bossDirection);
-    if(bossX >= bossPosition + bossDistance || bossX <= bossPosition - bossDistance)
-    {
-        bossDirection = bossDirection * -1;
-    }
-
-
+    knife();
 }
 
 //lose screen
@@ -604,6 +647,10 @@ function loseScreen()
     text('YOU LOSE', width / 2, height / 2)
 }
 
+function atk()
+{
+
+}
 
 //gravity
 function gravity()
@@ -739,87 +786,19 @@ function player1()
 
 function Boss()
 {
-    if(lookingright == true)
+    image(bosswalk_r1, bossX, bossY, bossWidth, bossHeight);
+    if(p1X >= bossX - bossWidth / 2 && p1X<= bossX + bossWidth / 2 && p1Y >= bossY - bossHeight / 2 && p1Y <= bossY + bossHeight / 2)
     {
-        lookingleft == false;
-        step = step + 1 //walk right
-        //right
-        if(step = 0)
-        {
-            image(bosswalk_r1, bossX, bossY, bossWidth, bossHeight);
-        }
-        else if(step = 1)
-        {
-            image(bosswalk_r2,bossX, bossY, bossWidth, bossHeight);
-        }
-        else if(step = 2)
-        {
-            image(bosswalk_r3,bossX, bossY, bossWidth, bossHeight);
-        }
-        else if(step = 3)
-        {
-            image(bosswalk_r4,bossX, bossY, bossWidth, bossHeight);
-        }
-        else if(step = 4)
-        {
-            image(bosswalk_r1,bossX, bossY, bossWidth, bossHeight);
-        }
-        else if(step = 5)
-        {
-            image(bosswalk_r2,bossX, bossY, bossWidth, bossHeight);
-        }
-        else if(step = 6)
-        {
-            image(bosswalk_r3,bossX, bossY, bossWidth, bossHeight);
-            step = 0; //restart
-        }
-    }//end right
-    
-    //left
-    if(lookingleft == true)
-    {
-        lookingright == false;
-        step = step + 1 //walk left
-        //right
-        if(step = 0)
-        {
-            image(bosswalk_l1, bossX, bossY, bossWidth, bossHeight);
-        }
-        else if(step = 1)
-        {
-            image(bosswalk_l2, bossX, bossY, bossWidth, bossHeight);
-        }
-        else if(step = 2)
-        {
-            image(bosswalk_l3, bossX, bossY, bossWidth, bossHeight);
-        }
-        else if(step = 3)
-        {
-            image(bosswalk_l4, bossX, bossY, bossWidth, bossHeight);
-        }
-        else if(step = 4)
-        {
-            image(bosswalk_l1, bossX, bossY, bossWidth, bossHeight);
-        }
-        else if(step = 5)
-        {
-            image(bosswalk_l2, bossX, bossY, bossWidth, bossHeight);
-        }
-        else if(step = 6)
-        {
-            image(bosswalk_l3, bossX, bossY, bossWidth, bossHeight);
-            step = 0; //restart
-        }
-    }//end left
-
-
-    if(lookingright == false && lookingleft ==false)
-    {
-        image(bosswalk_r1, bossX, bossY, bossWidth, bossHeight);
+        //hitting boss
+        lives = lives -5;
     }
 
-
-
+    //boss moving
+    bossX = bossX + (bossSpeed * bossDirection);
+    if(bossX >= bossPosition + bossDistance || bossX <= bossPosition - bossDistance)
+    {
+        bossDirection = bossDirection * -1;
+    }
 }
 
 function keyPressed()
@@ -828,6 +807,12 @@ function keyPressed()
     {
         console.log("cutsceen")
         stage++
+    }
+
+    if(key == "k" || key == "K" || keyCode == "75")
+    {
+        how_many_knife = how_many_knife - 1
+        image(knife_r, p1X + 100, p1Y, 50, 50)
     }
 }
 
@@ -856,4 +841,5 @@ function keyTyped()
     }else{
         lookingright = false;
     }
+
 }
