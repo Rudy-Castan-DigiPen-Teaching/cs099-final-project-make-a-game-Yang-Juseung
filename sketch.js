@@ -19,6 +19,7 @@ var step = 0;
 var lookingright = true;
 var lookingleft = false;
 
+
 //drug
 var drug
 var d1X = 420;
@@ -77,14 +78,14 @@ var bossHeight = 100;
 
 //moving BOSS
 var bossPosition = 400; //center positions
-var bossSpeed = 6; // how fast
+var bossSpeed = 5; // how fast
 var bossDirection = -1; // 1 move right and -1 move left
 var bossDistance = 350; // how far can boss go
 
 //moving MAD
 var m1position = 200; //center positions
 var m2position = 215;
-var mSpeed = 2; // how fast
+var mSpeed = 3; // how fast
 var m1Direction = -1; // 1 move right and -1 move left
 var m1Distance = 90; // how far can MAD go
 var m2Direction = -1;
@@ -119,6 +120,7 @@ let backpicture
 let cutscene1
 let cutscene2
 let cutscene3
+let lastcutscene
 let main_character_R
 let main_character_L
 var platform;
@@ -145,8 +147,10 @@ var knife_l
 
 //countres
 var lives = 100
-var madlife = 30
-var madlife2 = 40
+var madlife = 300
+var madlife_1 = 300
+var madlife2 = 400
+var madlife2_1 = 400
 var bosshealth = 200
 
 //preload
@@ -168,6 +172,7 @@ function preload()
     cutscene1 = loadImage("image/cut scene 1.png")
     cutscene2 = loadImage("image/cut scene 2.png")
     cutscene3 = loadImage("image/cut scene 3.png ")
+    lastcutscene = loadImage("image/last winning scene.png")
     drug = loadImage("image/drug.png")
     bosswalk_r1 = loadImage("move/Boss - r - walk1.png")
     bosswalk_r2 = loadImage("move/Boss - r - walk2.png")
@@ -238,6 +243,11 @@ function draw()
         level2()
     }
 
+    else if(stage == 7)
+    {
+        winning_scene()
+    }
+
 
 }
 
@@ -262,38 +272,21 @@ function splash()
     text("W = jump, A = go left, D = go right", width / 2, 300);
     text("Press K to attack", width / 2, 350);
     text("Press SPACE BAR to START", width / 2, 450);
-
-    /*if(keyIsDown(32) && stage == 0)
-    {
-        stage = 1;
-    }*/
 }
 
 function splash1()
 {
     image(cutscene1, width / 2, height / 2, width, height)
-    /*if(keyIsDown(32) && stage ==1)
-    {
-        stage = 2;
-    }*/
 }
 
 function splash2()
 {
     image(cutscene2, width / 2, height / 2, width, height)
-    /*if(keyIsDown(32) && stage ==2)
-    {
-        stage = 3;
-    }*/
 }
 
 function splash3()
 {
     image(cutscene3, width / 2, height / 2, width, height)
-    /*if(keyIsDown(32) && stage ==3)
-    {
-        stage = 4;
-    }*/
 }
 
 
@@ -434,9 +427,6 @@ function game()
         stage = 5;
     }
 
-    //call drug
-    DRUG();
-
     //call MAD
     MOB_MAD1();
     MOB_MAD2();
@@ -446,6 +436,11 @@ function game()
     //call knife
     knife();
 
+    if(madlife == 0 && madlife_1 == 0 && madlife2 == 0 && madlife2_1 == 0)
+    {
+        DRUG();
+    }
+    
 }//close game
 
 function knife()
@@ -455,6 +450,10 @@ function knife()
     stroke(0);
     text("knife :", 700, 50)
     text(how_many_knife, 750, 50)
+    push()
+    noStroke();
+    rect(p1X + 50, p1Y, pWidth - 30, pHeight -30)
+    pop()
 }
 
 function MOB_MAD1()
@@ -470,15 +469,24 @@ function MOB_MAD1()
     if(m1X >= m1position + m1Distance || m1X <= m1position - m1Distance)
     {
         m1Direction = m1Direction * -1;
-        /*if(m1X = 300)
-        {
-            image(MAD3, m1X, m1Y, mWidth, mHeight) == true
-        }*/
     }
+    
+    //madlife
     fill("red");
     textSize(10)
     stroke(0);
     text(madlife, m1X, m1Y - 30);
+
+    //hit mad 1
+    if(m1X >= (p1X + 50) - (pWidth - 30) && m1X <= (p1X + 50) + (pWidth - 30) && m1Y >= p1Y - (pHeight - 30) && m1Y <= p1Y + (pHeight - 30))
+    {
+        //hitting MAD
+        madlife = madlife - 5;
+        if(madlife = 0)
+        {
+            m1Y = -1000
+        }
+    }
 }
 
 function MOB_MAD2()
@@ -496,10 +504,22 @@ function MOB_MAD2()
     {
         m2Direction = m2Direction * -1;
     }
+    
     fill("red");
     textSize(10)
     stroke(0);
-    text(madlife, m2X, m2Y - 30);
+    text(madlife_1, m2X, m2Y - 30);
+
+    //hit mad 2
+    if(m2X >= (p1X + 50) - (pWidth - 30) && m2X <= (p1X + 50) + (pWidth - 30) && m2Y >= p1Y - (pHeight - 30) && m2Y <= p1Y + (pHeight - 30))
+    {
+        //hitting MAD
+        madlife_1 = madlife_1 - 5;
+        if(madlife_1 = 0)
+        {
+            m2Y = -1000
+        }
+    }
 }
 
 function MOB_MAD3()
@@ -517,10 +537,22 @@ function MOB_MAD3()
     {
         m3Direction = m3Direction * -1;
     }
+    
     fill("red");
     textSize(10)
     stroke(0);
     text(madlife2, m3X, m3Y - 30);
+
+    //hit mad 3
+    if(m3X >= (p1X + 50) - (pWidth - 30) && m3X <= (p1X + 50) + (pWidth - 30) && m3Y >= p1Y - (pHeight - 30) && m3Y <= p1Y + (pHeight - 30))
+    {
+        //hitting MAD
+        madlife2 = madlife2 - 5;
+        if(madlife2 = 0)
+        {
+            m3Y = -1000
+        }
+    }
 }
 
 function MOB_MAD4()
@@ -538,10 +570,22 @@ function MOB_MAD4()
     {
         m4Direction = m4Direction * -1;
     }
+    
     fill("red");
     textSize(10)
     stroke(0);
-    text(madlife2, m4X, m4Y - 30);
+    text(madlife2_1, m4X, m4Y - 30);
+
+    //hit mad 4
+    if(m4X >= (p1X + 50) - (pWidth - 30) && m4X <= (p1X + 50) + (pWidth - 30) && m4Y >= p1Y - (pHeight - 30) && m4Y <= p1Y + (pHeight - 30))
+    {
+        //hitting MAD
+        madlife2_1 = madlife2_1 - 5;
+        if(madlife2_1 = 0)
+        {
+            m4Y = -1000
+        }
+    }
 }
 
 function DRUG()
@@ -647,10 +691,12 @@ function loseScreen()
     text('YOU LOSE', width / 2, height / 2)
 }
 
-function atk()
+function winning_scene()
 {
-
+    image(lastcutscene, width / 2, height / 2, width, height)
 }
+
+
 
 //gravity
 function gravity()
@@ -798,6 +844,16 @@ function Boss()
     if(bossX >= bossPosition + bossDistance || bossX <= bossPosition - bossDistance)
     {
         bossDirection = bossDirection * -1;
+    }
+
+    if(bossX >= (p1X + 50) - (pWidth - 30) && bossX <= (p1X + 50) + (pWidth - 30) && bossY >= p1Y - (pHeight - 30) && bossY <= p1Y + (pHeight - 30))
+    {
+        //hitting MAD
+        bosshealth = bosshealth - 5;
+        if(bosshealth <= 0)
+        {
+            stage = 7
+        }
     }
 }
 
