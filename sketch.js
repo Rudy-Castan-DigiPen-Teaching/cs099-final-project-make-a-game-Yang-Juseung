@@ -69,6 +69,8 @@ var m3X = 500;
 var m3Y = 130;
 var m4X = 730;
 var m4Y = 260;
+var madlookingright = true;
+var madlookingleft = false;
 
 //Boss
 var bossX = 400;
@@ -104,6 +106,9 @@ var madlives = 3;
 var score  = 0;
 var how_many_knife = 50
 
+//class
+var throwing_knife = [];
+
 //gravity
 var jump = false;
 var direction = 1; //the force of gravity in the y direction
@@ -131,6 +136,7 @@ var A
 var G
 var E
 var MAD1
+var MAD1_l
 var hitted
 var MAD2
 var bosswalk_r1
@@ -147,10 +153,10 @@ var knife_l
 
 //countres
 var lives = 100
-var madlife = 300
-var madlife_1 = 300
-var madlife2 = 400
-var madlife2_1 = 400
+var madlife = 50
+var madlife_1 = 50
+var madlife2 = 60
+var madlife2_1 = 60
 var bosshealth = 200
 
 //preload
@@ -167,6 +173,7 @@ function preload()
     G = loadImage("image/live 3.png")
     E = loadImage("image/live 4.png")
     MAD1 = loadImage("image/villian.r.png")
+    MAD1_l = loadImage("image/villian.l.png")
     hitted = loadSound("audio/hit.wav")
     MAD2 = loadImage("image/villian2.r.png")
     cutscene1 = loadImage("image/cut scene 1.png")
@@ -197,6 +204,7 @@ function setup()
     rectMode(CENTER);
     textAlign(CENTER);
     imageMode(CENTER);
+
 }//close setup
 
 
@@ -330,7 +338,6 @@ function game()
 
     player1();
 
-
     //lives
     //image(R, 30, 30, 30, 30)
     //image(A, 60, 30, 30, 30)
@@ -427,6 +434,11 @@ function game()
         stage = 5;
     }
 
+    if(how_many_knife <= 0)
+    {
+        stage = 5;
+    }
+
     //call MAD
     MOB_MAD1();
     MOB_MAD2();
@@ -436,9 +448,15 @@ function game()
     //call knife
     knife();
 
-    if(madlife == 0 && madlife_1 == 0 && madlife2 == 0 && madlife2_1 == 0)
+    if(m1Y == -1000 && m2Y == -1000 && m3Y == -1000 && m4Y == -1000)
     {
         DRUG();
+    }
+
+    for (var i = 0; i < throwing_knife.length; i++)
+    {
+        throwing_knife[i].show();
+        throwing_knife[i].move();
     }
     
 }//close game
@@ -452,7 +470,6 @@ function knife()
     text(how_many_knife, 750, 50)
     push()
     noStroke();
-    rect(p1X + 50, p1Y, pWidth - 30, pHeight -30)
     pop()
 }
 
@@ -469,6 +486,10 @@ function MOB_MAD1()
     if(m1X >= m1position + m1Distance || m1X <= m1position - m1Distance)
     {
         m1Direction = m1Direction * -1;
+        if(m1X >= 300)
+        {
+            image(MAD1_l, m1X, m1Y, mWidth, mHeight)
+        }
     }
     
     //madlife
@@ -482,11 +503,11 @@ function MOB_MAD1()
     {
         //hitting MAD
         madlife = madlife - 5;
-        if(madlife = 0)
+        if(madlife <= 0)
         {
             m1Y = -1000
         }
-    }
+    }   
 }
 
 function MOB_MAD2()
@@ -515,13 +536,12 @@ function MOB_MAD2()
     {
         //hitting MAD
         madlife_1 = madlife_1 - 5;
-        if(madlife_1 = 0)
+        if(madlife_1 <= 0)
         {
             m2Y = -1000
         }
     }
 }
-
 function MOB_MAD3()
 {
     //MAD3
@@ -548,7 +568,7 @@ function MOB_MAD3()
     {
         //hitting MAD
         madlife2 = madlife2 - 5;
-        if(madlife2 = 0)
+        if(madlife2  <= 0)
         {
             m3Y = -1000
         }
@@ -581,7 +601,7 @@ function MOB_MAD4()
     {
         //hitting MAD
         madlife2_1 = madlife2_1 - 5;
-        if(madlife2_1 = 0)
+        if(madlife2_1 <= 0)
         {
             m4Y = -1000
         }
@@ -674,8 +694,19 @@ function level2()
         stage = 5;
     }
 
+    if(how_many_knife <= 0)
+    {
+        stage = 5;
+    }
+
     Boss();
     knife();
+    
+    for (var i = 0; i < throwing_knife.length; i++)
+    {
+        throwing_knife[i].show();
+        throwing_knife[i].move();
+    }
 }
 
 //lose screen
@@ -868,7 +899,13 @@ function keyPressed()
     if(key == "k" || key == "K" || keyCode == "75")
     {
         how_many_knife = how_many_knife - 1
-        image(knife_r, p1X + 100, p1Y, 50, 50)
+        var knifes = new Knife (p1X, p1Y)
+        throwing_knife.push(knifes)
+
+        if(knifes.x = p1X + 50)
+        {
+            knifes.x = -1000 
+        }
     }
 }
 
