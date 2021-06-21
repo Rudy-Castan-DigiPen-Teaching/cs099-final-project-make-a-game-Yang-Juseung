@@ -19,7 +19,7 @@ class Knife
     {
         this.move = function()
         {
-            this.X = this.X + 5;
+            this.X = this.X + 5; //knife speed
         }
     }
 }

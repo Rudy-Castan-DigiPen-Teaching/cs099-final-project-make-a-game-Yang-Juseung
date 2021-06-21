@@ -104,7 +104,7 @@ var m4Distance = 100;
 var lives = 4;
 var madlives = 3;
 var score  = 0;
-var how_many_knife = 50
+var how_many_knife = 40
 
 //class
 var throwing_knife = [];
@@ -119,6 +119,11 @@ var minHeight = 360; //height of ground
 var maxHeight = 0; //height of sky
 var jumpCounter = 0;//keep track of how much jump
 
+//health
+var RY = 30
+var AY = 30
+var GY = 30
+var EY = 30
 
 //media
 let backpicture
@@ -153,11 +158,11 @@ var knife_l
 
 //countres
 var lives = 100
-var madlife = 50
-var madlife_1 = 50
-var madlife2 = 60
-var madlife2_1 = 60
-var bosshealth = 200
+var madlife = 200
+var madlife_1 = 200
+var madlife2 = 300
+var madlife2_1 = 300
+var bosshealth = 1000
 
 //preload
 function preload() 
@@ -255,7 +260,6 @@ function draw()
     {
         winning_scene()
     }
-
 
 }
 
@@ -453,11 +457,30 @@ function game()
 
 function health()
 {
-    textSize(20)
-    fill(255);
-    stroke(0);
-    text("HEALTH", 130, 100);
-    text(lives, 200, 100);
+    textSize(10)
+    fill('RED');
+    stroke(0);  
+    //text("HEALTH", 200, 50);
+    // text(lives, 170, 40);
+    image(R, 20, RY, 40, 40)
+    image(A, 60, AY, 40, 40)
+    image(G, 100, GY, 40, 40)
+    image(E, 140, EY, 40, 40)
+
+    if(lives <= 75)
+    {
+        RY = -1000
+    }
+
+    if(lives <= 50)
+    {
+        AY = -1000
+    }
+
+    if(lives <= 25)
+    {
+        GY = -1000
+    }
 }
 
 function knife()
@@ -467,7 +490,7 @@ function knife()
     stroke(0);
     text("knife :", 700, 50)
     text(how_many_knife, 750, 50)
-    rect(p1X + 90, p1Y, pWidth - 30, pHeight - 30)
+    rect(p1X + 60, p1Y, pWidth + 30, pHeight - 30)
     push()
     noStroke();
     pop()
@@ -499,7 +522,7 @@ function MOB_MAD1()
     text(madlife, m1X, m1Y - 30);
 
     //hit mad 1
-    if(m1X >= (p1X + 90) - (pWidth - 30) && m1X <= (p1X + 90) + (pWidth - 30) && m1Y >= p1Y - (pHeight - 30) && m1Y <= p1Y + (pHeight - 30))
+    if(m1X >= (p1X + 60) - (pWidth + 30) && m1X <= (p1X + 60) + (pWidth + 30) && m1Y >= p1Y - (pHeight - 30) && m1Y <= p1Y + (pHeight - 30))
     {
         //hitting MAD
         madlife = madlife - 5;
@@ -532,7 +555,7 @@ function MOB_MAD2()
     text(madlife_1, m2X, m2Y - 30);
 
     //hit mad 2
-    if(m2X >= (p1X + 90) - (pWidth - 30) && m2X <= (p1X + 90) + (pWidth - 30) && m2Y >= p1Y - (pHeight - 30) && m2Y <= p1Y + (pHeight - 30))
+    if(m2X >= (p1X + 60) - (pWidth + 30) && m2X <= (p1X + 60) + (pWidth + 30) && m2Y >= p1Y - (pHeight - 30) && m2Y <= p1Y + (pHeight - 30))
     {
         //hitting MAD
         madlife_1 = madlife_1 - 5;
@@ -565,7 +588,7 @@ function MOB_MAD3()
     text(madlife2, m3X, m3Y - 30);
 
     //hit mad 3
-    if(m3X >= (p1X + 90) - (pWidth - 30) && m3X <= (p1X + 90) + (pWidth - 30) && m3Y >= p1Y - (pHeight - 30) && m3Y <= p1Y + (pHeight - 30))
+    if(m3X >= (p1X + 60) - (pWidth + 30) && m3X <= (p1X + 60) + (pWidth + 30) && m3Y >= p1Y - (pHeight - 30) && m3Y <= p1Y + (pHeight - 30))
     {
         //hitting MAD
         madlife2 = madlife2 - 5;
@@ -598,7 +621,7 @@ function MOB_MAD4()
     text(madlife2_1, m4X, m4Y - 30);
 
     //hit mad 4
-    if(m4X >= (p1X +90) - (pWidth - 30) && m4X <= (p1X + 90) + (pWidth - 30) && m4Y >= p1Y - (pHeight - 30) && m4Y <= p1Y + (pHeight - 30))
+    if(m4X >= (p1X + 60) - (pWidth + 30) && m4X <= (p1X + 60) + (pWidth + 30) && m4Y >= p1Y - (pHeight - 30) && m4Y <= p1Y + (pHeight - 30))
     {
         //hitting MAD
         madlife2_1 = madlife2_1 - 5;
@@ -616,7 +639,7 @@ function DRUG()
     {
         score = score + 1;
         d1X = -1000
-        how_many_knife = how_many_knife + 50
+        how_many_knife = how_many_knife + 60
         lives = lives + 30
     }
 }
@@ -653,7 +676,7 @@ function level2()
 
     player1();
     health();
-    
+        
     fill("red");
     textSize(10)
     stroke(0);
@@ -873,7 +896,7 @@ function Boss()
         bossDirection = bossDirection * -1;
     }
 
-    if(bossX >= (p1X + 90) - (pWidth - 30) && bossX <= (p1X + 90) + (pWidth - 30) && bossY >= p1Y - (pHeight - 30) && bossY <= p1Y + (pHeight - 30))
+    if(bossX >= (p1X + 60) - (pWidth + 30) && bossX <= (p1X + 60) + (pWidth + 30) && bossY >= p1Y - (pHeight - 30) && bossY <= p1Y + (pHeight - 30))
     {
         //hitting MAD
         bosshealth = bosshealth - 5;
