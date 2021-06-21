@@ -145,16 +145,13 @@ var MAD1_l
 var hitted
 var MAD2
 var bosswalk_r1
-var bosswalk_r2
-var bosswalk_r3
-var bosswalk_r4
-var bosswalk_l
-var MAD1_atk
 var MAD3
 var MAD4
 var knife_r
 var knife_l
-
+var background_music
+var bossMoveSprite
+var bossMoveData
 
 //countres
 var lives = 100
@@ -187,18 +184,13 @@ function preload()
     lastcutscene = loadImage("image/last winning scene.png")
     drug = loadImage("image/drug.png")
     bosswalk_r1 = loadImage("move/Boss - r - walk1.png")
-    bosswalk_r2 = loadImage("move/Boss - r - walk2.png")
-    bosswalk_r3 = loadImage("move/Boss - r - walk3.png")
-    bosswalk_r4 = loadImage("move/Boss - r - walk4.png")
-    bosswalk_l1 = loadImage("move/Boss - l - walk1.png")
-    bosswalk_l2 = loadImage("move/Boss - l - walk2.png")
-    bosswalk_l3 = loadImage("move/Boss - l - walk3.png")
-    bosswalk_l4 = loadImage("move/Boss - l - walk4.png")
-    MAD1_atk = loadImage("move/villian - r - atk 1.png")
     MAD3 = loadImage("image/villian.l.png")
     MAD4 = loadImage("image/villian2.ll.png")
     knife_r = loadImage("image/knife r.png")
     knife_l = loadImage("image/knife l.png")
+    background_music = loadSound("audio/back music.mp3")
+    bossMoveData = loadJSON("move/Boss - r - walk.json")
+    bossMoveSprite = loadImage("move/Boss - r - walk.png")
 }
 
 
@@ -209,7 +201,10 @@ function setup()
     rectMode(CENTER);
     textAlign(CENTER);
     imageMode(CENTER);
-
+    background_music.play();
+    
+    
+    console.log(bossMoveData)
 }//close setup
 
 
@@ -442,10 +437,11 @@ function game()
     //call knife
     knife();
 
-    if(m1Y == -1000 && m2Y == -1000 && m3Y == -1000 && m4Y == -1000)
+    DRUG();
+    /*if(m1Y == -1000 && m2Y == -1000 && m3Y == -1000 && m4Y == -1000)
     {
         DRUG();
-    }
+    }*/
 
     for (var i = 0; i < throwing_knife.length; i++)
     {
@@ -490,7 +486,7 @@ function knife()
     stroke(0);
     text("knife :", 700, 50)
     text(how_many_knife, 750, 50)
-    rect(p1X + 60, p1Y, pWidth + 30, pHeight - 30)
+    //rect(p1X + 60, p1Y, pWidth + 30, pHeight - 30)
     push()
     noStroke();
     pop()
@@ -883,6 +879,7 @@ function player1()
 function Boss()
 {
     image(bosswalk_r1, bossX, bossY, bossWidth, bossHeight);
+    //image(bossMoveSprite, bossX, bossY, bossWidth, bossHeight)
     if(p1X >= bossX - bossWidth / 2 && p1X<= bossX + bossWidth / 2 && p1Y >= bossY - bossHeight / 2 && p1Y <= bossY + bossHeight / 2)
     {
         //hitting boss
