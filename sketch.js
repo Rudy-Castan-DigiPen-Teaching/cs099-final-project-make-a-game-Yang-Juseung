@@ -108,6 +108,7 @@ var how_many_knife = 40
 
 //class
 var throwing_knife = [];
+var animation = [];
 
 //gravity
 var jump = false;
@@ -205,6 +206,8 @@ function setup()
     
     
     console.log(bossMoveData)
+
+    
 }//close setup
 
 
@@ -486,7 +489,7 @@ function knife()
     stroke(0);
     text("knife :", 700, 50)
     text(how_many_knife, 750, 50)
-    //rect(p1X + 60, p1Y, pWidth + 30, pHeight - 30)
+    rect(p1X + 60, p1Y, pWidth + 30, pHeight - 30)
     push()
     noStroke();
     pop()
@@ -878,8 +881,8 @@ function player1()
 
 function Boss()
 {
-    image(bosswalk_r1, bossX, bossY, bossWidth, bossHeight);
-    //image(bossMoveSprite, bossX, bossY, bossWidth, bossHeight)
+    //image(bosswalk_r1, bossX, bossY, bossWidth, bossHeight);
+    image(bossMoveSprite, bossX, bossY, bossWidth, bossHeight)
     if(p1X >= bossX - bossWidth / 2 && p1X<= bossX + bossWidth / 2 && p1Y >= bossY - bossHeight / 2 && p1Y <= bossY + bossHeight / 2)
     {
         //hitting boss
