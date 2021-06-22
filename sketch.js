@@ -108,7 +108,7 @@ var how_many_knife = 40
 
 //class
 var throwing_knife = [];
-var animation = [];
+let animation = [];
 
 //gravity
 var jump = false;
@@ -151,8 +151,6 @@ var MAD4
 var knife_r
 var knife_l
 var background_music
-var bossMoveSprite
-var bossMoveData
 
 //countres
 var lives = 100
@@ -161,6 +159,11 @@ var madlife_1 = 200
 var madlife2 = 300
 var madlife2_1 = 300
 var bosshealth = 1000
+
+
+//frame
+let bossframes = []
+let bossnumFrames = 48
 
 //preload
 function preload() 
@@ -190,8 +193,6 @@ function preload()
     knife_r = loadImage("image/knife r.png")
     knife_l = loadImage("image/knife l.png")
     background_music = loadSound("audio/back music.mp3")
-    bossMoveData = loadJSON("move/Boss - r - walk.json")
-    bossMoveSprite = loadImage("move/Boss - r - walk.png")
 }
 
 
@@ -203,11 +204,7 @@ function setup()
     textAlign(CENTER);
     imageMode(CENTER);
     background_music.play();
-    
-    
-    console.log(bossMoveData)
 
-    
 }//close setup
 
 
@@ -882,7 +879,6 @@ function player1()
 function Boss()
 {
     //image(bosswalk_r1, bossX, bossY, bossWidth, bossHeight);
-    image(bossMoveSprite, bossX, bossY, bossWidth, bossHeight)
     if(p1X >= bossX - bossWidth / 2 && p1X<= bossX + bossWidth / 2 && p1Y >= bossY - bossHeight / 2 && p1Y <= bossY + bossHeight / 2)
     {
         //hitting boss
