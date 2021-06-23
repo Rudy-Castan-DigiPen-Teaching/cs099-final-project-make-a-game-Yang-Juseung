@@ -105,6 +105,7 @@ var lives = 4;
 var madlives = 3;
 var score  = 0;
 var how_many_knife = 40
+var knife_start_position 
 
 //class
 var throwing_knife = [];
@@ -161,9 +162,17 @@ var madlife2_1 = 300
 var bosshealth = 1000
 
 
-//frame
-let bossframes = []
-let bossnumFrames = 48
+//animation
+var boss_r_walkData
+var boss_r_walkImage
+let Animations = {};
+let CurrentAnimation = "Idle";
+let animation_names = ["Boss - r -walk"]
+let FrameIndex = 0;
+let EllapsedTime = 0;
+let AnimationSpeed = (1/24) * 1000
+
+
 
 //preload
 function preload() 
@@ -193,6 +202,9 @@ function preload()
     knife_r = loadImage("image/knife r.png")
     knife_l = loadImage("image/knife l.png")
     background_music = loadSound("audio/back music.mp3")
+
+    boss_r_walkData = loadJSON("move/Boss - r - walk.json")
+    boss_r_walkImage = loadImage("move/Boss - r - walk.png")
 }
 
 
@@ -204,7 +216,19 @@ function setup()
     textAlign(CENTER);
     imageMode(CENTER);
     background_music.play();
-
+    console.log(boss_r_walkData.frames['Boss0.png'])
+    for(let name of animation_names)
+    {
+        let frames = [];
+        for(let info of boss_r_walkData.frames)
+        {
+            if(!info.filename.includes(name))
+                continue;
+            frames.push(info.frame);
+        }
+        Animations[name] = frames;
+        boss_r_walkData = null;
+    }
 }//close setup
 
 
@@ -268,7 +292,10 @@ function splash()
     stroke(0);
     strokeWeight(10);
     textSize(100);
-    text('RAGE', width / 2, 150)
+    image(R, 250, 100, 100, 100)
+    image(A, 350, 100, 100, 100)
+    image(G, 450, 100, 100, 100)
+    image(E, 550, 100, 100, 100)
     textSize(15);
     text("Made By Yang juseung", 700, 480);
 
@@ -447,6 +474,11 @@ function game()
     {
         throwing_knife[i].show();
         throwing_knife[i].move();
+
+        if(throwing_knife[i].X >= knife_start_position + 100)
+        {
+            throwing_knife.splice(i,1)
+        }
     }
     
 }//close game
@@ -486,9 +518,9 @@ function knife()
     stroke(0);
     text("knife :", 700, 50)
     text(how_many_knife, 750, 50)
-    rect(p1X + 60, p1Y, pWidth + 30, pHeight - 30)
     push()
     noStroke();
+    rect(p1X + 60, p1Y, pWidth + 30, pHeight - 30)
     pop()
 }
 
@@ -721,6 +753,11 @@ function level2()
     {
         throwing_knife[i].show();
         throwing_knife[i].move();
+
+        if(throwing_knife[i].X >= knife_start_position + 100)
+        {
+            throwing_knife.splice(i,1)
+        }
     }
 }
 
@@ -878,7 +915,7 @@ function player1()
 
 function Boss()
 {
-    //image(bosswalk_r1, bossX, bossY, bossWidth, bossHeight);
+    image(bosswalk_r1, bossX, bossY, bossWidth, bossHeight);
     if(p1X >= bossX - bossWidth / 2 && p1X<= bossX + bossWidth / 2 && p1Y >= bossY - bossHeight / 2 && p1Y <= bossY + bossHeight / 2)
     {
         //hitting boss
@@ -901,6 +938,16 @@ function Boss()
             stage = 7
         }
     }
+
+    let frames = Animations[CurrentAnimation];
+    let frame = frames[FrameIndex];
+    image(boss_r_walkImage, 0, 0, frame.w * 0.25, frame.h * 0.25, frame.x, frame.y, frame.w, frame.h);
+    EllapsedTime += deltaTime;
+    if(EllapsedTime > AnimationSpeed)
+    {
+        EllapsedTime -= AnimationSpeed;
+        FrameIndex = (FrameIndex + 1) % frame.length;
+    }
 }
 
 function keyPressed()
@@ -914,8 +961,10 @@ function keyPressed()
     if(key == "k" || key == "K" || keyCode == "75")
     {
         how_many_knife = how_many_knife - 1
-        var knifes = new Knife (p1X, p1Y)
-        throwing_knife.push(knifes)
+        
+        //var knifes = new Knife (p1X, p1Y)
+        throwing_knife.push(new Knife (p1X, p1Y))
+        knife_start_position = p1X
     }
 }
 

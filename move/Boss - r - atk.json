@@ -1,1 +1,36 @@
-{"frames":{"Boss att0.png":{"frame":{"x":0,"y":0,"w":32,"h":32},"rotated":false,"trimmed":false,"spriteSourceSize":{"x":0,"y":0,"w":32,"h":32},"sourceSize":{"w":32,"h":32}},"Boss att1.png":{"frame":{"x":32,"y":0,"w":32,"h":32},"rotated":false,"trimmed":false,"spriteSourceSize":{"x":0,"y":0,"w":32,"h":32},"sourceSize":{"w":32,"h":32}},"Boss att2.png":{"frame":{"x":0,"y":32,"w":32,"h":32},"rotated":false,"trimmed":false,"spriteSourceSize":{"x":0,"y":0,"w":32,"h":32},"sourceSize":{"w":32,"h":32}}},"meta":{"app":"https://github.com/piskelapp/piskel/","version":"1.0","image":"Boss att.png","format":"RGBA8888","size":{"w":64,"h":64}}}
+{"frames": [
+
+{
+	"filename": "Boss - r - atk1.png",
+	"frame": {"x":35,"y":1,"w":28,"h":31},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":0,"w":28,"h":31},
+	"sourceSize": {"w":32,"h":32}
+},
+{
+	"filename": "Boss - r - atk2.png",
+	"frame": {"x":1,"y":34,"w":29,"h":31},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":0,"w":29,"h":31},
+	"sourceSize": {"w":32,"h":32}
+},
+{
+	"filename": "Boss - r - atk3.png",
+	"frame": {"x":1,"y":1,"w":32,"h":31},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":0,"w":32,"h":31},
+	"sourceSize": {"w":32,"h":32}
+}],
+"meta": {
+	"app": "https://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "Boss - r - atk.png",
+	"format": "RGBA8888",
+	"size": {"w":64,"h":64},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:01e3f0a0fe574a55bc6acd4e1e286fc1:c88cd878b9ad74f4e7b69cfaf8a03512:f07f26e98ad12996896863a4df37c846$"
+}
+}
