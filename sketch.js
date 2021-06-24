@@ -98,7 +98,7 @@ var m4position = 650;
 var m3Direction = -1; // 1 move right and -1 move left
 var m3Distance = 150; // how far can MAD go
 var m4Direction = -1;
-var m4Distance = 100;
+var m4Distance = 80;
 
 //count
 var lives = 4;
@@ -200,8 +200,6 @@ function preload()
     background_music = loadSound("audio/back music.mp3")
     boss_r_walkData = loadJSON("move/Boss - r - walk.json")
     boss_r_walkImage = loadImage("move/Boss - r - walk.png")
-    main_r_atkData = loadJSON("move/main - r - atk.json")
-    main_r_atkImage = loadImage("move/main - r - atk.png")
 }
 
 
@@ -222,14 +220,6 @@ function setup()
                 continue;
             frames.push(info.frame);
         }
-
-        for(let info of main_r_atkData.frames)
-        {
-            if(!info.filename.includes(name))
-                continue;
-            frames.push(info.frame);
-        }
-
         Animations[name] = frames;
         boss_r_walkData = null;
         main_r_atkData = null;
@@ -945,7 +935,7 @@ function Boss()
     //animation
     let frames = Animations[animation_names[0]];
     let frame = frames[FrameIndex];
-    image(boss_r_walkImage, bossX, bossY, frame .w * 3.5 , frame.h * 3.5, frame.x, frame.y, frame.w, frame.h);
+    image(boss_r_walkImage, bossX, bossY, frame.w * 3.5 , frame.h * 3.5, frame.x, frame.y, frame.w, frame.h);
     EllapsedTime += deltaTime;
     if(EllapsedTime > AnimationSpeed)
     {
@@ -969,17 +959,6 @@ function keyPressed()
         //var knifes = new Knife (p1X, p1Y)
         throwing_knife.push(new Knife (p1X, p1Y))
         knife_start_position = p1X
-
-        //animation
-        let frames = Animations[animation_names2[0]];
-        let frame = frames[FrameIndex];
-        image(main_r_atkImage, p1X, p1Y, frame .w * 2 , frame.h * 2, frame.x, frame.y, frame.w, frame.h);
-        EllapsedTime += deltaTime;
-        if(EllapsedTime > AnimationSpeed)
-        {
-            EllapsedTime -= AnimationSpeed;
-            FrameIndex = (FrameIndex + 1) % frames.length;
-        }
     }
 }
 
