@@ -167,10 +167,12 @@ var boss_r_walkData
 var boss_r_walkImage
 let Animations = {};
 let CurrentAnimation = "Idle";
-let animation_names = ["Boss - r -walk"]
+let animation_names = ["Boss - r - walk"]
 let FrameIndex = 0;
 let EllapsedTime = 0;
-let AnimationSpeed = (1/24) * 1000
+let AnimationSpeed = (1/2) * 500;
+var main_r_atkData
+var main_r_atkImage
 
 
 
@@ -205,6 +207,8 @@ function preload()
 
     boss_r_walkData = loadJSON("move/Boss - r - walk.json")
     boss_r_walkImage = loadImage("move/Boss - r - walk.png")
+    main_r_atkData = loadJSON("move/main - r - atk.json")
+    main_r_atkImage = loadImage("move/main - r - atk.png")
 }
 
 
@@ -216,7 +220,6 @@ function setup()
     textAlign(CENTER);
     imageMode(CENTER);
     background_music.play();
-    console.log(boss_r_walkData.frames['Boss0.png'])
     for(let name of animation_names)
     {
         let frames = [];
@@ -226,11 +229,20 @@ function setup()
                 continue;
             frames.push(info.frame);
         }
+
+        
+        for(let info of main_r_atkData.frames)
+        {
+            if(!info.filename.includes(name))
+                continue;
+            frames.push(info.frame);
+        }
+
         Animations[name] = frames;
         boss_r_walkData = null;
+        main_r_atkData = null;
     }
 }//close setup
-
 
 //draw
 function draw()
@@ -915,7 +927,7 @@ function player1()
 
 function Boss()
 {
-    image(bosswalk_r1, bossX, bossY, bossWidth, bossHeight);
+    //image(bosswalk_r1, bossX, bossY, bossWidth, bossHeight);
     if(p1X >= bossX - bossWidth / 2 && p1X<= bossX + bossWidth / 2 && p1Y >= bossY - bossHeight / 2 && p1Y <= bossY + bossHeight / 2)
     {
         //hitting boss
@@ -939,14 +951,15 @@ function Boss()
         }
     }
 
-    let frames = Animations[CurrentAnimation];
+    //animation
+    let frames = Animations[animation_names[0]];
     let frame = frames[FrameIndex];
-    image(boss_r_walkImage, 0, 0, frame.w * 0.25, frame.h * 0.25, frame.x, frame.y, frame.w, frame.h);
+    image(boss_r_walkImage, bossX, bossY, frame .w * 3.5 , frame.h * 3.5, frame.x, frame.y, frame.w, frame.h);
     EllapsedTime += deltaTime;
     if(EllapsedTime > AnimationSpeed)
     {
         EllapsedTime -= AnimationSpeed;
-        FrameIndex = (FrameIndex + 1) % frame.length;
+        FrameIndex = (FrameIndex + 1) % frames.length;
     }
 }
 
@@ -965,6 +978,17 @@ function keyPressed()
         //var knifes = new Knife (p1X, p1Y)
         throwing_knife.push(new Knife (p1X, p1Y))
         knife_start_position = p1X
+
+        //animation
+        let frames = Animations[animation_names[0]];
+        let frame = frames[FrameIndex];
+        image(main_r_atkImage, p1X, p1Y, frame .w * 2 , frame.h * 2, frame.x, frame.y, frame.w, frame.h);
+        EllapsedTime += deltaTime;
+        if(EllapsedTime > AnimationSpeed)
+        {
+            EllapsedTime -= AnimationSpeed;
+            FrameIndex = (FrameIndex + 1) % frames.length;
+        }
     }
 }
 
