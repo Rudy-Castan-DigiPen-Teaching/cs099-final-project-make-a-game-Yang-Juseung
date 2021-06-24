@@ -1,0 +1,36 @@
+{"frames": [
+
+{
+	"filename": "villian2 - l - atk 1.png",
+	"frame": {"x":1,"y":34,"w":27,"h":31},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":2,"y":1,"w":27,"h":31},
+	"sourceSize": {"w":32,"h":32}
+},
+{
+	"filename": "villian2 - l - atk 2.png",
+	"frame": {"x":1,"y":67,"w":27,"h":31},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":2,"y":1,"w":27,"h":31},
+	"sourceSize": {"w":32,"h":32}
+},
+{
+	"filename": "villian2 - l - atk 4.png",
+	"frame": {"x":1,"y":1,"w":29,"h":31},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":1,"w":29,"h":31},
+	"sourceSize": {"w":32,"h":32}
+}],
+"meta": {
+	"app": "https://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "villian2 - l - atk.png",
+	"format": "RGBA8888",
+	"size": {"w":31,"h":99},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:cfbd7eb51fd0d534ccf31754a84c0454:9c3e705d33eacfd992e4be14ec1f9438:ed5603054ae2616c5936837f0627e5f0$"
+}
+}

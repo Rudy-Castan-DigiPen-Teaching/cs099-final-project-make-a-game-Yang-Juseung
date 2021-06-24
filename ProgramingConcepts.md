@@ -9,7 +9,7 @@
 5. Loops
     
 6.  Functions
-
+    
 7.  Classes
     
 8.  Arrays

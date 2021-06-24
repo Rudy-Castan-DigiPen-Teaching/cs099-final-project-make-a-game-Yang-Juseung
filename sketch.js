@@ -143,12 +143,9 @@ var A
 var G
 var E
 var MAD1
-var MAD1_l
 var hitted
 var MAD2
 var bosswalk_r1
-var MAD3
-var MAD4
 var knife_r
 var knife_l
 var background_music
@@ -168,6 +165,7 @@ var boss_r_walkImage
 let Animations = {};
 let CurrentAnimation = "Idle";
 let animation_names = ["Boss - r - walk"]
+let animation_names2 = ["main - r - atk"]
 let FrameIndex = 0;
 let EllapsedTime = 0;
 let AnimationSpeed = (1/2) * 500;
@@ -189,22 +187,17 @@ function preload()
     A = loadImage("image/live2.png")
     G = loadImage("image/live 3.png")
     E = loadImage("image/live 4.png")
-    MAD1 = loadImage("image/villian.r.png")
-    MAD1_l = loadImage("image/villian.l.png")
+    MAD1 = loadImage("image/villian.l.png")
     hitted = loadSound("audio/hit.wav")
-    MAD2 = loadImage("image/villian2.r.png")
+    MAD2 = loadImage("image/villian2.ll.png")
     cutscene1 = loadImage("image/cut scene 1.png")
     cutscene2 = loadImage("image/cut scene 2.png")
     cutscene3 = loadImage("image/cut scene 3.png ")
     lastcutscene = loadImage("image/last winning scene.png")
     drug = loadImage("image/drug.png")
     bosswalk_r1 = loadImage("move/Boss - r - walk1.png")
-    MAD3 = loadImage("image/villian.l.png")
-    MAD4 = loadImage("image/villian2.ll.png")
     knife_r = loadImage("image/knife r.png")
-    knife_l = loadImage("image/knife l.png")
     background_music = loadSound("audio/back music.mp3")
-
     boss_r_walkData = loadJSON("move/Boss - r - walk.json")
     boss_r_walkImage = loadImage("move/Boss - r - walk.png")
     main_r_atkData = loadJSON("move/main - r - atk.json")
@@ -230,7 +223,6 @@ function setup()
             frames.push(info.frame);
         }
 
-        
         for(let info of main_r_atkData.frames)
         {
             if(!info.filename.includes(name))
@@ -476,11 +468,10 @@ function game()
     //call knife
     knife();
 
-    DRUG();
-    /*if(m1Y == -1000 && m2Y == -1000 && m3Y == -1000 && m4Y == -1000)
+    if(m1Y == -1000 && m2Y == -1000 && m3Y == -1000 && m4Y == -1000)
     {
         DRUG();
-    }*/
+    }
 
     for (var i = 0; i < throwing_knife.length; i++)
     {
@@ -532,7 +523,7 @@ function knife()
     text(how_many_knife, 750, 50)
     push()
     noStroke();
-    rect(p1X + 60, p1Y, pWidth + 30, pHeight - 30)
+    //rect(p1X + 60, p1Y, pWidth + 30, pHeight - 30)
     pop()
 }
 
@@ -980,7 +971,7 @@ function keyPressed()
         knife_start_position = p1X
 
         //animation
-        let frames = Animations[animation_names[0]];
+        let frames = Animations[animation_names2[0]];
         let frame = frames[FrameIndex];
         image(main_r_atkImage, p1X, p1Y, frame .w * 2 , frame.h * 2, frame.x, frame.y, frame.w, frame.h);
         EllapsedTime += deltaTime;
