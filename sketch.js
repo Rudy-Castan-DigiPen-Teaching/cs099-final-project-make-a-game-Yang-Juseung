@@ -660,7 +660,7 @@ function DRUG()
     {
         score = score + 1;
         d1X = -1000
-        how_many_knife = how_many_knife + 60
+        how_many_knife = how_many_knife + 90
         lives = lives + 30
     }
 }
