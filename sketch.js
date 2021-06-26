@@ -156,7 +156,7 @@ var madlife = 200
 var madlife_1 = 200
 var madlife2 = 300
 var madlife2_1 = 300
-var bosshealth = 1000
+var bosshealth = 800
 
 
 //animation

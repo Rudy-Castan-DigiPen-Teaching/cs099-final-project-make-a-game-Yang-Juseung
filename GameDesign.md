@@ -1,12 +1,12 @@
 -theme
 
 - Escape the unknown lab and revenge to the scientists who did a medical experiment to main character
-- 2D action flatform game
+- 2D action platform game
 
 -setting
 sett show the image and play back ground sound. Also I made function call Mobs and drug, life, etc.
 
-- main screne
+- main scene
 ![main scene](image/mainscrene.png)
 it described how to move and how to fight
 - cut scene1
@@ -27,4 +27,4 @@ The man who walk on the street met the monster at the alley. The monster attacke
 
 -mechanic
 
--I made a gravity and collisions to make a flatform and hit box between user and Mobs
+-I made a gravity and collisions to make a platform and hit box between user and Mobs
