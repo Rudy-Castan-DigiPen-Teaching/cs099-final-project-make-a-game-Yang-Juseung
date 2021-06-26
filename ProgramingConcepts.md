@@ -111,9 +111,6 @@ var score  = 0;
 var how_many_knife = 40
 var knife_start_position 
 
-//class - class
-var throwing_knife = [];
-let animation = [];
 
 -gravity = help to make a gravity
 var jump = false;
@@ -178,20 +175,20 @@ var main_r_atkImage
 
 4. Conditional Statements
 
-
+I used for, if and else if as a Conditional statements
 
 5. Loops
 
-
+used a loop to return the music
 
 6. Functions
 
-
+used a lots of functions like game, MAD1, BOSS, level1, etc
 
 7. Classes
 
-
+made knife_bullet.js as a class
 
 8. Arrays
 
-
+used arrays as animation and throwing knife
