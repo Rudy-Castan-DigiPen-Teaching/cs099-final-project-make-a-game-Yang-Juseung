@@ -1,13 +1,26 @@
 1. Shapes
 
 I usually used rects to test a flatform, player, Mobs, collisions and hitbox
+ex)
+rect(width/2, 450, width, 100)
+rect(width/2, height/2, width, height);
+rect(b1X, b1Y, bWidth, bHeight);
+rect(bossX, bossY, bossWidth, bossHeight);
+rect(p1X + 60, p1Y, pWidth + 30, pHeight - 30)
+rect(width/2, 450, width, 100)
+rect(width/2, height/2, width, height);
+rect(b1X, b1Y, bWidth, bHeight);
+rect(bossX, bossY, bossWidth, bossHeight);
 
 2. Colors
 
 I usually use white to explain how to play the game. And use red to write my name.
+ex)
+fill('red');
+fill('white')
 
 3. Variables
-
+ex)
 //game control
 var stage = 0; //keeps track of which function to run
 
@@ -176,19 +189,96 @@ var main_r_atkImage
 4. Conditional Statements
 
 I used for, if and else if as a Conditional statements
+ex)
+    if(bossX >= (p1X + 60) - (pWidth + 30) && bossX <= (p1X + 60) + (pWidth + 30) && bossY >= p1Y - (pHeight - 30) && bossY <= p1Y + (pHeight - 30))
+    {
+        //hitting MAD
+        bosshealth = bosshealth - 5;
+        if(bosshealth <= 0)
+        {
+            stage = 7
+        }
+    }
 
 5. Loops
 
-used a loop to return the music
+used a loop to throwing knife
+ex)
+let frames = [];
+        for(let info of boss_r_walkData.frames)
+        {
+            if(!info.filename.includes(name))
+                continue;
+            frames.push(info.frame);
+        }
+        Animations[name] = frames;
 
 6. Functions
 
 used a lots of functions like game, MAD1, BOSS, level1, etc
+ex)
+function health()
+{
+    textSize(10)
+    fill('RED');
+    stroke(0);  
+    //text("HEALTH", 200, 50);
+    // text(lives, 170, 40);
+    image(R, 20, RY, 40, 40)
+    image(A, 60, AY, 40, 40)
+    image(G, 100, GY, 40, 40)
+    image(E, 140, EY, 40, 40)
+
+    if(lives <= 75)
+    {
+        RY = -1000
+    }
+
+    if(lives <= 50)
+    {
+        AY = -1000
+    }
+
+    if(lives <= 25)
+    {
+        GY = -1000
+    }
+}
 
 7. Classes
 
 made knife_bullet.js as a class
+ex)
+class Knife
+{
+    constructor(x,y)
+    {
+        this.X = x + 20
+        this.Y = y
+    }
+
+    show()
+    {
+        image(knife_r, this.X, this.Y, 50, 50);
+    }
+
+    move()
+    {
+        this.X = this.X + 5; //knife speed
+    }
+}
 
 8. Arrays
 
-used arrays as animation and throwing knife
+used arrays as moving boss animation and throwing knife animation
+ex)
+    for (var i = 0; i < throwing_knife.length; i++)
+    {
+        throwing_knife[i].show();
+        throwing_knife[i].move();
+
+        if(throwing_knife[i].X >= knife_start_position + 100)
+        {
+            throwing_knife.splice(i,1)
+        }
+    }
