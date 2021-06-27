@@ -16,7 +16,7 @@ As clearly and simply as you can, explain your game idea.
 
 Your game must adhere to the following theme: **Take One, Leave The Rest**
 
-    - The theme/setting/scenario/mechanic of your game must be something that involves this theme.
+- The theme/setting/scenario/mechanic of your game must be something that involves this theme.
 Explain how your game idea works with the theme.
 
 ### Mock Ups

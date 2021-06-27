@@ -1,3 +1,8 @@
+// Name       : Yang juseung
+// Assignment : Final project
+// Course     : CS099
+// Spring 2021
+
 1. Shapes
 
 I usually used rects to test a flatform, player, Mobs, collisions and hitbox
