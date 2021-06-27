@@ -282,3 +282,4 @@ ex)
             throwing_knife.splice(i,1)
         }
     }
+    
